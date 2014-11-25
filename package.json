@@ -1,0 +1,25 @@
+{
+  "name": "parched-tasks-webapp",
+  "version": "0.0.3",
+  "description": "Adds a webapp workflow to parched",
+  "main": "lib/index.js",
+  "scripts": {
+  },
+  "keywords": [],
+  "author": "Mike Wyatt <wyatt.mike@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "browser-sync": "^1.6.5",
+    "browserify": "^6.3.2",
+    "gulp-bower-files": "^0.2.7",
+    "gulp-cached": "^1.0.1",
+    "gulp-concat": "^2.4.1",
+    "gulp-remember": "^0.2.1",
+    "gulp-sourcemaps": "^1.2.8",
+    "gulp-watch": "^1.1.0",
+    "main-bower-files": "^2.4.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.0.0",
+    "watchify": "^2.1.1"
+  }
+}
