@@ -1,7 +1,7 @@
 {
   modifyBundleOptions
   modifyBrowserifyObject
-} = require './tasks/build-app-scripts.coffee'
+} = require './tasks/build-app-scripts'
 
 
 getAllExtensions = ->
