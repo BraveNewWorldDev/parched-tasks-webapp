@@ -3,6 +3,11 @@
   "version": "0.0.5",
   "description": "Adds a webapp workflow to parched",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raisedmedia/parched-tasks-webapp.git"
+  },
+  "homepage": "https://github.com/raisedmedia/parched-tasks-webapp",
   "scripts": {
   },
   "keywords": [],
