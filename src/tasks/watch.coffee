@@ -5,7 +5,7 @@ watch = require 'gulp-watch'
   gulp
 } = require('../refs').vendor
 
-gulp().task 'webapp-watch', ['parched-watch'], ->
+gulp().task 'webapp-watch', ['parched-watch', 'webapp-build-all'], ->
   watch ['app/scripts/**/*'], (files, cb) ->
     runSequence 'parched-before',
       'webapp-lint-app-scripts'
@@ -71,4 +71,4 @@ gulp().task 'webapp-watch', ['parched-watch'], ->
       'parched-after'
       cb
 
-  undefined
+  return

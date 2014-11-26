@@ -67,3 +67,30 @@ Parched.setup({
 - Use browserSync in development.
 - Stay out of your way.
 - Allow you to intervene at pretty much any point.
+
+Usage
+-----
+
+To cleanup `public/` and `tmp/`:
+
+```bash
+gulp webapp-clean
+```
+
+To watch files in development
+
+```bash
+gulp webapp-watch
+```
+
+To build everything:
+
+```bash
+gulp webapp-build-all
+```
+
+To build and minify everything:
+
+```bash
+NODE_ENV=production gulp webapp-build-all
+```
