@@ -24,6 +24,10 @@ defaultBundleOptions = {
 }
 
 
+hasBuiltOnce = false
+proxyTasks = []
+
+
 makeBrowserifyTask = (outputName, bundleOptions) ->
   bundler = createBrowserifyInstance bundleOptions
   modifyBrowserifyObject bundler
@@ -77,18 +81,14 @@ modifyBundleOptions = (bundleOptions) ->
   for pluginInstance in getAllInstances()
     pluginInstance.modifyBundleOptions? bundleOptions
 
-  undefined
+  bundleOptions
 
 
 modifyBrowserifyObject = (b) ->
   for pluginInstance in getAllInstances()
     pluginInstance.modifyBrowserifyObject? b
 
-  undefined
-
-
-hasBuiltOnce = false
-proxyTasks = []
+  b
 
 
 for outputName, bundleOptions of getConfig().files.scripts
@@ -122,3 +122,9 @@ gulp().task 'webapp-build-app-scripts', (cb) ->
     return __cb()
 
   vendor.runSequence 'webapp-build-app-scripts-proxy', __cb
+
+
+module.exports = {
+  modifyBundleOptions
+  modifyBrowserifyObject
+}
