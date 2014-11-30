@@ -10,7 +10,12 @@
   "homepage": "https://github.com/raisedmedia/parched-tasks-webapp",
   "scripts": {
   },
-  "keywords": [],
+  "keywords": [
+    "parched",
+    "tasks",
+    "webapp",
+    "browserify"
+  ],
   "author": "Mike Wyatt <wyatt.mike@gmail.com>",
   "license": "MIT",
   "dependencies": {
