@@ -23,7 +23,6 @@ defaultBundleOptions = {
   extensions: []
 }
 
-
 hasBuiltOnce = false
 proxyTasks = []
 

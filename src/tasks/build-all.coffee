@@ -12,9 +12,15 @@ browserSync = require 'browser-sync'
 gulp().task 'webapp-build-all', (done) ->
   sequence = [
     'parched-before'
-    ['webapp-build-app-assets', 'webapp-build-vendor-assets', 'webapp-build-bower-assets']
-    ['webapp-build-app-views', 'webapp-build-vendor-views']
-
+    [
+      'webapp-build-app-assets'
+      'webapp-build-vendor-assets'
+      'webapp-build-bower-assets'
+    ]
+    [
+      'webapp-build-app-views'
+      'webapp-build-vendor-views'
+    ]
     [
       'webapp-lint-app-scripts'
       'webapp-build-app-scripts'
@@ -24,10 +30,10 @@ gulp().task 'webapp-build-all', (done) ->
       'webapp-build-vendor-styles'
       'webapp-build-bower-styles'
     ]
-
-    #['webapp-lint-app-scripts', 'webapp-build-app-scripts', 'webapp-build-vendor-scripts', 'webapp-build-bower-scripts']
-    #['webapp-build-app-styles', 'webapp-build-vendor-styles', 'webapp-build-bower-styles']
-    ['webapp-build-final-scripts', 'webapp-build-final-styles']
+    [
+      'webapp-build-final-scripts'
+      'webapp-build-final-styles'
+    ]
     'parched-after'
     ->
       if global.isWatching

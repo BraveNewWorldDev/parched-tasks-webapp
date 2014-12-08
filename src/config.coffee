@@ -11,8 +11,10 @@ defaultConfig = {
 
 appConfig = defaultConfig
 
+
 getConfig = ->
   xtend {}, appConfig
+
 
 setConfig = (config) ->
   appConfig = xtend true, {}, defaultConfig, config
@@ -24,6 +26,7 @@ setConfig = (config) ->
     }
 
   appConfig
+
 
 module.exports = {
   getConfig
