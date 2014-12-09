@@ -1,8 +1,8 @@
 {
   "name": "parched-tasks-webapp",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Adds a webapp workflow to parched",
-  "main": "src/index.coffee",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/raisedmedia/parched-tasks-webapp.git"
