@@ -2,7 +2,6 @@ browserify = require 'browserify'
 watchify = require 'watchify'
 source = require 'vinyl-source-stream'
 buffer = require 'vinyl-buffer'
-sourcemaps = require 'gulp-sourcemaps'
 
 {
   handleErrors
@@ -16,6 +15,11 @@ sourcemaps = require 'gulp-sourcemaps'
 {
   getConfig
 } = require '../config'
+
+{
+  sourcemapsInit
+  sourcemapsWrite
+} = require '../sourcemaps'
 
 defaultBundleOptions = {
   debug: !isProduction()
@@ -61,8 +65,8 @@ runBundleFor = (outputName, bundler) -> ->
     # Convert from streaming to buffered vinyl object
     .pipe buffer()
 
-    .pipe sourcemaps.init(loadMaps: true)
-    .pipe sourcemaps.write()
+    .pipe sourcemapsInit()
+    .pipe sourcemapsWrite()
     .pipe gulp().dest('tmp/webapp/99-app')
 
     #.on 'readable', ->
