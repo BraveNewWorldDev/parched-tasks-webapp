@@ -40,12 +40,12 @@ npm install --save parched-coffee \
 Parched.setup({
   gulp: gulp,
   
-  __before: function(done) {
+  parchedWillBuild: function(done) {
     console.log('Before');
     done();
   },
   
-  __after: function(done) {
+  parchedDidBuild: function(done) {
     console.log('After');
     done();
   }
