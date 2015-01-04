@@ -59,19 +59,19 @@ createTask {
   ]
 
   beforeTransform: (stream) ->
-    stream = stream
+    stream
       .pipe sourcemapsInit()
 
-  beforeEach: (stream, callbackContext) ->
+  beforeLint: (stream, callbackContext) ->
     stream
       .pipe cachedForTaskName(callbackContext)
 
-  afterEach: (stream, callbackContext) ->
+  afterLint: (stream, callbackContext) ->
     stream
       .pipe rememberForTaskName(callbackContext)
 
   afterTransform: (stream, callbackContext) ->
-    stream = stream
+    stream
       .pipe sourcemapsWrite()
       .pipe gulp().dest 'tmp/webapp/99-app'
 }
