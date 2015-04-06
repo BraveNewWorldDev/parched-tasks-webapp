@@ -2,13 +2,16 @@
   "name": "parched-tasks-webapp",
   "version": "0.1.1",
   "description": "Adds a webapp workflow to parched",
-  "main": "lib/index.js",
+  "main": "src-js/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/raisedmedia/parched-tasks-webapp.git"
   },
   "homepage": "https://github.com/raisedmedia/parched-tasks-webapp",
-  "scripts": {},
+  "scripts": {
+    "watch": "babel src-js/ --out-dir lib-js --stage 1 --no-comments --watch",
+    "build": "babel src-js/ --out-dir lib-js --stage 1 --no-comments"
+  },
   "keywords": [
     "parched",
     "tasks",
@@ -18,17 +21,20 @@
   "author": "Mike Wyatt <wyatt.mike@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "browser-sync": "^1.7.2",
-    "browserify": "^6.3.4",
+    "browser-sync": "^2.5.2",
+    "browserify": "^9.0.7",
     "gulp-bower-files": "^0.2.7",
-    "gulp-cached": "^1.0.1",
-    "gulp-concat": "^2.4.1",
-    "gulp-remember": "^0.2.2",
-    "gulp-sourcemaps": "^1.2.8",
-    "gulp-watch": "^1.2.1",
-    "main-bower-files": "^2.4.1",
+    "gulp-cached": "^1.0.4",
+    "gulp-concat": "^2.5.2",
+    "gulp-remember": "^0.3.0",
+    "gulp-sourcemaps": "^1.5.1",
+    "gulp-watch": "^4.2.3",
+    "main-bower-files": "^2.6.2",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.0.0",
-    "watchify": "^2.1.1"
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.1.0"
+  },
+  "devDependencies": {
+    "babel": "^5.0.8"
   }
 }

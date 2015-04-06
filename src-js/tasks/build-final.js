@@ -2,11 +2,8 @@ import concat from 'gulp-concat'
 
 import ConfigStore from '../ConfigStore'
 import browserSyncReload from '../pipes/browserSyncReload'
-
-import {
-  sourcemapsInit,
-  sourcemapsWrite
-} from '../pipes/sourcemaps'
+import sourcemapsInit from '../pipes/sourcemapsInit'
+import sourcemapsWrite from '../pipes/sourcemapsWrite'
 
 import {
   isProduction,
@@ -15,6 +12,11 @@ import {
   vendor,
 } from '../refs'
 
+// Take all .css files and join them to app.css in the public folder
+// Run them through minify if isProduction
+// Sort via config.files.order.before
+//
+// TODO allow the files to be defined by the user, like Brunch
 vendor.gulp().task('webapp-build-final-styles', () => {
   let config = ConfigStore.getConfig()
   let stream = vendor.gulp()
@@ -40,13 +42,21 @@ vendor.gulp().task('webapp-build-final-styles', () => {
   }
 
   stream
-      .pipe(gulp().dest('public'))
+      .pipe(vendor.gulp().dest(config.paths.public))
       .pipe(browserSyncReload())
 
   return stream
 })
 
-gulp().task('webapp-build-final-scripts', () => {
+// Take all .js files and join them to app.js in the public folder
+// Run them through minify if isProduction
+// Sort via config.files.order.before
+//
+// TODO While this is nice it has a few issues:
+// - two browserify bundles joined just doesn't seem to work
+// - joining bower and vendor maybe makes the task take too long
+// - splitting to vendor.js and user-defined bundles makes more sense
+vendor.gulp().task('webapp-build-final-scripts', () => {
   let config = ConfigStore.getConfig()
   let stream = vendor.gulp()
       .src([
@@ -69,7 +79,7 @@ gulp().task('webapp-build-final-scripts', () => {
   }
 
   stream
-      .pipe(gulp().dest('public'))
+      .pipe(vendor.gulp().dest(config.paths.public))
       .pipe(browserSyncReload())
 
   return stream

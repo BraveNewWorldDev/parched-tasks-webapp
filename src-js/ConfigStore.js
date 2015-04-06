@@ -1,6 +1,21 @@
-import { xtend } from './refs'
+import {
+  vendor,
+} from './refs'
 
 const defaultConfig = {
+  paths: {
+    appScripts: 'app/scripts',
+    appStyles: 'app/styles',
+    appAssets: 'app/assets',
+    appViews: 'app/views',
+    vendorScripts: 'vendor/scripts',
+    vendorStyles: 'vendor/styles',
+    vendorAssets: 'vendor/assets',
+    vendorViews: 'vendor/views',
+    bowerAssets: 'bower_components',
+    public: 'public'
+  },
+
   files: {
     order: {
       before: [],
@@ -12,11 +27,11 @@ const defaultConfig = {
 let appConfig = defaultConfig
 
 export function getConfig () {
-  return xtend({}, appConfig)
+  return vendor.xtend({}, appConfig)
 }
 
 export function setConfig (config) {
-  appConfig = xtend(true, {}, defaultConfig, config)
+  appConfig = vendor.xtend(true, {}, defaultConfig, config)
 
   appConfig.files.scripts = appConfig.files.scripts || {}
   if (Object.keys(appConfig.files.scripts).length === 0) {

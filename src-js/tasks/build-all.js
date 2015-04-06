@@ -1,16 +1,21 @@
 import browserSync from 'browser-sync'
-import ConfigStore from '../ConfigStore'
+
+import {
+  getConfig,
+} from '../ConfigStore'
 
 import {
   gulpSort,
   vendor,
 } from '../refs'
 
+let config = getConfig()
+
 let defaultBrowserSyncOptions = {
   notify: false,
   ghostMode: true,
   server: {
-    baseDir: 'public'
+    baseDir: config.paths.public
   }
 }
 
@@ -58,7 +63,7 @@ vendor.gulp().task('webapp-build-all', (done) => {
         browserSync(vendor.xtend(
           {},
           defaultBundleOptions,
-          ConfigStore.getConfig().browserSyncOptions
+          config.browserSyncOptions
         ))
       }
       return done(...arguments)

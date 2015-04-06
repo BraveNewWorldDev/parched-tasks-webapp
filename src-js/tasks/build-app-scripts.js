@@ -3,7 +3,14 @@ import watchify from 'watchify'
 import source from 'vinyl-source-stream'
 import buffer from 'vinyl-buffer'
 
-import ConfigStore from '../ConfigStore'
+import sourcemapsInit from '../pipes/sourcemapsInit'
+import sourcemapsWrite from '../pipes/sourcemapsWrite'
+
+import {
+  getConfig,
+} from '../ConfigStore'
+
+let config = getConfig()
 
 import {
   handleErrors,
@@ -12,11 +19,6 @@ import {
   isProduction,
   vendor,
 } from '../refs'
-
-import {
-  sourcemapsInit,
-  sourcemapsWrite,
-} from '../pipes/sourcemaps'
 
 let defaultBundleOptions = {
   debug: !isProduction(),
@@ -52,7 +54,7 @@ function createBrowserifyInstance (bundleOptions) {
   // Fill out the paths in `bundleOptions.entries`
   // TODO support user defined paths
   bundleOptions.entries = bundleOptions.entries.map((entry) => {
-    return `./app/scripts/${entry}`
+    return `.${config.paths.appScripts}/${entry}`
   })
 
   modifyBundleOptions(bundleOptions)
@@ -115,7 +117,7 @@ export function modifyBrowserifyObject (b) {
 // ie: `webapp-build-app-scripts--index.js`
 // They get added as dependencies to the `webapp-build-app-scripts-proxy` task
 let proxyTasks = []
-let appScripts = ConfigStore.getConfig().files.scripts
+let appScripts = config.files.scripts
 
 Object.keys(appScripts).forEach((outputName) => {
   let bundleOptions = appScripts[outputName]
@@ -123,7 +125,7 @@ Object.keys(appScripts).forEach((outputName) => {
 })
 
 function createGulpProxyTask (outputName, bundleOptions) {
-  taskName = `webapp-build-app-scripts--${outputName}`
+  let taskName = `webapp-build-app-scripts--${outputName}`
   proxyTasks.push(taskName)
 
   vendor.gulp().task(taskName, () => {
@@ -133,12 +135,12 @@ function createGulpProxyTask (outputName, bundleOptions) {
   })
 }
 
-gulp().task('webapp-build-app-scripts-proxy', proxyTasks)
+vendor.gulp().task('webapp-build-app-scripts-proxy', proxyTasks)
 
 // The `webapp-build-app-scripts` task calls the `-proxy` task if needed
 let hasBuiltOnce = false
 
-gulp().task('webapp-build-app-scripts', (done) => {
+vendor.gulp().task('webapp-build-app-scripts', (done) => {
   function __done () {
     hasBuiltOnce = true
     done(...arguments)
