@@ -1,5 +1,8 @@
 import watch from 'gulp-watch'
-import { vendor } from '../refs'
+import {
+  addDependencyToWatch,
+  vendor,
+} from '../refs'
 
 import {
   getConfig,
@@ -14,7 +17,7 @@ function watchAndRunSequence (watchPath, ...sequence) {
   })
 }
 
-vendor.gulp().task('webapp-watch', ['parched-watch', 'webapp-build-all'], () => {
+vendor.gulp().task('webapp-watch', false, () => {
   let paths = config.paths
 
   watchAndRunSequence(
@@ -73,3 +76,6 @@ vendor.gulp().task('webapp-watch', ['parched-watch', 'webapp-build-all'], () => 
     ]
   )
 })
+
+addDependencyToWatch('webapp-build-all')
+addDependencyToWatch('webapp-watch')

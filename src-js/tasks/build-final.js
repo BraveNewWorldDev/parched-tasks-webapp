@@ -23,7 +23,7 @@ let config = getConfig()
 // Sort via config.files.order.before
 //
 // TODO allow the files to be defined by the user, like Brunch
-vendor.gulp().task('webapp-build-final-styles', () => {
+vendor.gulp().task('webapp-build-final-styles', false, () => {
   let stream = vendor.gulp()
       .src([
         'tmp/webapp/00-**/*.css',
@@ -61,7 +61,7 @@ vendor.gulp().task('webapp-build-final-styles', () => {
 // - two browserify bundles joined just doesn't seem to work
 // - joining bower and vendor maybe makes the task take too long
 // - splitting to vendor.js and user-defined bundles makes more sense
-vendor.gulp().task('webapp-build-final-scripts', () => {
+vendor.gulp().task('webapp-build-final-scripts', false, () => {
   let stream = vendor.gulp()
       .src([
         'tmp/webapp/00-**/*.js',

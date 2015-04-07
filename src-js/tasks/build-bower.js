@@ -15,7 +15,7 @@ import {
 
 let config = getConfig()
 
-vendor.gulp().task('webapp-build-bower-scripts', () => {
+vendor.gulp().task('webapp-build-bower-scripts', false, () => {
   let bowerFiles
   try {
     bowerFiles = mainBowerFiles({
@@ -32,7 +32,7 @@ vendor.gulp().task('webapp-build-bower-scripts', () => {
       .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'))
 })
 
-vendor.gulp().task('webapp-build-bower-styles', () => {
+vendor.gulp().task('webapp-build-bower-styles', false, () => {
   let bowerFiles
   try {
     bowerFiles = mainBowerFiles({
@@ -49,7 +49,7 @@ vendor.gulp().task('webapp-build-bower-styles', () => {
       .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'))
 })
 
-vendor.gulp().task('webapp-build-bower-assets', () => {
+vendor.gulp().task('webapp-build-bower-assets', false, () => {
   let bowerFiles
   try {
     bowerFiles = mainBowerFiles({

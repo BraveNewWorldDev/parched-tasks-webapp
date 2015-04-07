@@ -1,4 +1,7 @@
-import { vendor } from '../refs'
+import {
+  addDependencyToClean,
+  vendor,
+} from '../refs'
 
 import {
   getConfig,
@@ -6,6 +9,8 @@ import {
 
 let config = getConfig()
 
-vendor.gulp().task('webapp-clean', ['parched-clean'], (done) => {
+vendor.gulp().task('webapp-clean', false, (done) => {
   vendor.rimraf(config.paths.public, done)
 })
+
+addDependencyToClean('webapp-clean')

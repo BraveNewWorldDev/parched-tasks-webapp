@@ -5,6 +5,7 @@ import {
 } from '../ConfigStore'
 
 import {
+  addDependencyToBuild,
   gulpSort,
   vendor,
 } from '../refs'
@@ -19,7 +20,7 @@ let defaultBrowserSyncOptions = {
   }
 }
 
-vendor.gulp().task('webapp-build-all', (done) => {
+vendor.gulp().task('webapp-build-all', false, (done) => {
   let sequence = [
     // Run before callbacks
     'parched-before',
@@ -78,5 +79,7 @@ vendor.gulp().task('webapp-build-all', (done) => {
     },
   ]
 
-  return vendor.runSequence(...sequence)
+  vendor.runSequence(...sequence)
 })
+
+addDependencyToBuild('webapp-build-all')

@@ -128,19 +128,19 @@ function createGulpProxyTask (outputName, bundleOptions) {
   let taskName = `webapp-build-app-scripts--${outputName}`
   proxyTasks.push(taskName)
 
-  vendor.gulp().task(taskName, () => {
+  vendor.gulp().task(taskName, false, () => {
     let watchifyArgs = global.isWatching ? watchify.args : {}
     let optionsClone = vendor.xtend({}, defaultBundleOptions, bundleOptions, watchifyArgs)
     return makeBrowserifyTask(outputName, optionsClone)
   })
 }
 
-vendor.gulp().task('webapp-build-app-scripts-proxy', proxyTasks)
+vendor.gulp().task('webapp-build-app-scripts-proxy', false, proxyTasks)
 
 // The `webapp-build-app-scripts` task calls the `-proxy` task if needed
 let hasBuiltOnce = false
 
-vendor.gulp().task('webapp-build-app-scripts', (done) => {
+vendor.gulp().task('webapp-build-app-scripts', false, (done) => {
   function __done () {
     hasBuiltOnce = true
     done(...arguments)
