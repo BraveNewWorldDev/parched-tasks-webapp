@@ -20,26 +20,52 @@ function watchAndRunSequence (watchPath, ...sequence) {
 vendor.gulp().task('webapp-watch', false, () => {
   let paths = config.paths
 
-  watchAndRunSequence(
-    paths.appScripts,
-    'webapp-lint-app-scripts'
-  )
+  Object.keys(config.bundles).forEach((bundleName) => {
+    let bundleOptions = config.bundles[bundleName]
 
-  watchAndRunSequence(
-    paths.appStyles,
-    'webapp-build-app-styles',
-    'webapp-build-final-styles'
-  )
+    watchAndRunSequence(
+      `${bundleOptions.src}/scripts/**/*`,
+      `webapp-lint-scripts--${bundleName}`
+    )
 
-  watchAndRunSequence(
-    paths.appAssets,
-    'webapp-build-app-assets'
-  )
+    watchAndRunSequence(
+      `${bundleOptions.src}/styles/**/*`,
+      `webapp-build-styles--${bundleName}`,
+      'webapp-build-final-styles'
+    )
 
-  watchAndRunSequence(
-    paths.appViews,
-    'webapp-build-app-views'
-  )
+    watchAndRunSequence(
+      `${bundleOptions.src}/assets/**/*`,
+      `webapp-build-assets--${bundleName}`
+    )
+
+    watchAndRunSequence(
+      `${bundleOptions.src}/views/**/*`,
+      `webapp-build-views--${bundleName}`
+    )
+
+  })
+
+  //watchAndRunSequence(
+    //paths.appScripts,
+    //'webapp-lint-app-scripts'
+  //)
+
+  //watchAndRunSequence(
+    //paths.appStyles,
+    //'webapp-build-app-styles',
+    //'webapp-build-final-styles'
+  //)
+
+  //watchAndRunSequence(
+    //paths.appAssets,
+    //'webapp-build-app-assets'
+  //)
+
+  //watchAndRunSequence(
+    //paths.appViews,
+    //'webapp-build-app-views'
+  //)
 
   watchAndRunSequence(
     paths.vendorScripts,

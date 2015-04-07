@@ -2,15 +2,15 @@
   "name": "parched-tasks-webapp",
   "version": "0.1.1",
   "description": "Adds a webapp workflow to parched",
-  "main": "src-js/index.js",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/raisedmedia/parched-tasks-webapp.git"
   },
   "homepage": "https://github.com/raisedmedia/parched-tasks-webapp",
   "scripts": {
-    "watch": "babel src-js/ --out-dir lib-js --stage 1 --no-comments --watch",
-    "build": "babel src-js/ --out-dir lib-js --stage 1 --no-comments"
+    "watch": "babel src/ --out-dir lib --stage 1 --no-comments --watch",
+    "build": "babel src/ --out-dir lib --stage 1 --no-comments"
   },
   "keywords": [
     "parched",
