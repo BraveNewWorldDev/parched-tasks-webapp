@@ -1,15 +1,21 @@
 import watch from 'gulp-watch'
 import { vendor } from '../refs'
-import ConfigStore from '../ConfigStore'
+
+import {
+  getConfig,
+} from '../ConfigStore'
+
+let config = getConfig()
 
 function watchAndRunSequence (watchPath, ...sequence) {
-  watch(watchPath, (files, done) => {
-    return runSequence('parched-before', ...sequence, 'parched-after', done)
+  watch(watchPath, function (file) {
+    console.log(arguments)
+    return vendor.runSequence('parched-before', ...sequence, 'parched-after')
   })
 }
 
 vendor.gulp().task('webapp-watch', ['parched-watch', 'webapp-build-all'], () => {
-  let paths = ConfigStore.getConfig().paths
+  let paths = config.paths
 
   watchAndRunSequence(
     paths.appScripts,

@@ -43,7 +43,7 @@ function makeBrowserifyTask (outputName, bundleOptions) {
     browserifyInstance.on('update', createBundleFactory(outputName, browserifyInstance))
   }
 
-  return createBundleFactory(outputName, bundler)()
+  return createBundleFactory(outputName, browserifyInstance)()
 }
 
 function createBrowserifyInstance (bundleOptions) {
@@ -54,7 +54,7 @@ function createBrowserifyInstance (bundleOptions) {
   // Fill out the paths in `bundleOptions.entries`
   // TODO support user defined paths
   bundleOptions.entries = bundleOptions.entries.map((entry) => {
-    return `.${config.paths.appScripts}/${entry}`
+    return `./${config.paths.appScripts}/${entry}`
   })
 
   modifyBundleOptions(bundleOptions)
@@ -80,12 +80,12 @@ function createBundleFactory (outputName, browserifyInstance) {
 
         .pipe(sourcemapsInit())
         .pipe(sourcemapsWrite())
-        .pipe(gulp().dest('tmp/webapp/99-app'))
+        .pipe(vendor.gulp().dest('tmp/webapp/99-app'))
 
         .on('end', () => {
           vendor.gutil.log('browserify', `Bundled ${outputName}`)
           if (global.isWatching && hasBuiltOnce) {
-            gulp().start('webapp-build-final-scripts')
+            vendor.gulp().start('webapp-build-final-scripts')
           }
         })
   }

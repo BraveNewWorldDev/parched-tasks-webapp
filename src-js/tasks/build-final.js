@@ -6,11 +6,17 @@ import sourcemapsInit from '../pipes/sourcemapsInit'
 import sourcemapsWrite from '../pipes/sourcemapsWrite'
 
 import {
+  getConfig,
+} from '../ConfigStore'
+
+import {
   isProduction,
   gulpSort,
   addPluginMethodsToStream,
   vendor,
 } from '../refs'
+
+let config = getConfig()
 
 // Take all .css files and join them to app.css in the public folder
 // Run them through minify if isProduction
@@ -18,7 +24,6 @@ import {
 //
 // TODO allow the files to be defined by the user, like Brunch
 vendor.gulp().task('webapp-build-final-styles', () => {
-  let config = ConfigStore.getConfig()
   let stream = vendor.gulp()
       .src([
         'tmp/webapp/00-**/*.css',
@@ -31,7 +36,7 @@ vendor.gulp().task('webapp-build-final-styles', () => {
       }))
 
       .pipe(sourcemapsInit())
-      .pipe(vendor.concat('app.css'))
+      .pipe(concat('app.css'))
       .pipe(sourcemapsWrite())
 
   if (isProduction()) {
@@ -57,7 +62,6 @@ vendor.gulp().task('webapp-build-final-styles', () => {
 // - joining bower and vendor maybe makes the task take too long
 // - splitting to vendor.js and user-defined bundles makes more sense
 vendor.gulp().task('webapp-build-final-scripts', () => {
-  let config = ConfigStore.getConfig()
   let stream = vendor.gulp()
       .src([
         'tmp/webapp/00-**/*.js',

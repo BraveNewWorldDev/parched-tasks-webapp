@@ -62,11 +62,21 @@ vendor.gulp().task('webapp-build-all', (done) => {
       if (global.isWatching) {
         browserSync(vendor.xtend(
           {},
-          defaultBundleOptions,
+          defaultBrowserSyncOptions,
           config.browserSyncOptions
         ))
       }
+
+      // TODO the first argument is an empty object now??
+      // maybe something is returning when it shouldn't
+      if (Object.keys(arguments[0]).length === 0) {
+        let args = Array.prototype.slice.call(arguments, 1)
+        return done(null, ...args)
+      }
+
       return done(...arguments)
     },
   ]
+
+  return vendor.runSequence(...sequence)
 })

@@ -16,8 +16,9 @@ import {
 let config = getConfig()
 
 vendor.gulp().task('webapp-build-bower-scripts', () => {
+  let bowerFiles
   try {
-    let bowerFiles = mainBowerFiles({
+    bowerFiles = mainBowerFiles({
       filter: /\.js$/
     })
   } catch (error) {
@@ -32,8 +33,9 @@ vendor.gulp().task('webapp-build-bower-scripts', () => {
 })
 
 vendor.gulp().task('webapp-build-bower-styles', () => {
+  let bowerFiles
   try {
-    let bowerFiles = mainBowerFiles({
+    bowerFiles = mainBowerFiles({
       filter: /\.css/
     })
   } catch (error) {
@@ -48,8 +50,9 @@ vendor.gulp().task('webapp-build-bower-styles', () => {
 })
 
 vendor.gulp().task('webapp-build-bower-assets', () => {
+  let bowerFiles
   try {
-    let bowerFiles = mainBowerFiles({
+    bowerFiles = mainBowerFiles({
       filter: /^(?!.*(js|css)).*$/
     })
   } catch (error) {
