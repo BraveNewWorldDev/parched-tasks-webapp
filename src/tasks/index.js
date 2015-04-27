@@ -14,9 +14,6 @@ import {
 } from '../ConfigStore'
 
 import {
-  //addDependencyToScripts,
-  //addDependencyToStyles,
-  //addDependencyToAssets,
   addDependency,
 } from '../DependencyStore'
 
@@ -34,7 +31,6 @@ Object.keys(config.bundles).forEach((bundleName) => {
     let bundleConfig = config.bundles[bundleName]
     let taskNameScripts = `webapp-lint-scripts--${bundleName}`
     addDependency('scripts', taskNameScripts)
-    //addDependencyToScripts(taskNameScripts)
 
     createTask({
       taskName: taskNameScripts,
@@ -64,7 +60,6 @@ Object.keys(config.bundles).forEach((bundleName) => {
 
     let taskNameStyle = `webapp-build-styles--${bundleName}`
     addDependency('styles', taskNameStyle)
-    //addDependencyToStyles(taskNameStyle)
 
     createTask({
       taskName: taskNameStyle,
@@ -104,7 +99,6 @@ Object.keys(config.bundles).forEach((bundleName) => {
     });
 
     let taskNameAssets = `webapp-build-assets--${bundleName}`
-    //addDependencyToAssets(taskNameAssets)
     addDependency('assets', taskNameAssets)
 
     createTask({
@@ -149,7 +143,6 @@ Object.keys(config.bundles).forEach((bundleName) => {
 
       afterTransform (stream) {
         return stream
-            //.pipe(vendor.gulp().dest(`tmp/webapp/99-${bundleName}`))
             .pipe(vendor.gulp().dest(bundleConfig.dest))
             .pipe(browserSyncReload());
       }
@@ -160,7 +153,6 @@ Object.keys(config.bundles).forEach((bundleName) => {
 })
 
 addDependency('scripts', 'webapp-build-vendor-scripts')
-//addDependencyToScripts('webapp-build-vendor-scripts')
 createTask({
   taskName: 'webapp-build-vendor-scripts',
   src: [
@@ -192,7 +184,6 @@ createTask({
   }
 });
 
-//addDependencyToStyles('webapp-build-vendor-styles')
 addDependency('styles', 'webapp-build-vendor-styles')
 createTask({
   taskName: 'webapp-build-vendor-styles',
@@ -225,7 +216,6 @@ createTask({
   }
 });
 
-//addDependencyToAssets('webapp-build-vendor-assets')
 addDependency('assets', 'webapp-build-vendor-assets')
 createTask({
   taskName: 'webapp-build-vendor-assets',

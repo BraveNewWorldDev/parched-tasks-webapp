@@ -61,7 +61,6 @@ vendor.gulp().task('webapp-build-all', false, (done) => {
     },
   ]
 
-  console.dir(sequence)
   vendor.runSequence(...sequence)
 })
 

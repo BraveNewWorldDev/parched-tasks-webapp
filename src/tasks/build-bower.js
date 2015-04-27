@@ -68,5 +68,5 @@ vendor.gulp().task('webapp-build-bower-assets', false, () => {
 
   return vendor.gulp()
       .src(bowerFiles)
-      .pipe(vendor.gulp().dest(config.paths.public))
+      .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'))
 })

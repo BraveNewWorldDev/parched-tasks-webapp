@@ -1,8 +1,6 @@
 import refs from './refs'
 
 export default function (Parched) {
-  //console.log(Parched)
-
   Object.keys(Parched).forEach((key) => {
     refs[key] = Parched[key]
   })
@@ -42,7 +40,4 @@ export default function (Parched) {
   ConfigStore.setConfig(Parched.getAppConfig().webapp)
 
   require('./tasks')
-  //console.log(require('./DependencyStore').cloneAll())
-  console.log(ConfigStore.getConfig())
-  console.log(require('./DependencyStore').cloneAll())
 }

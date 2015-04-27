@@ -15,9 +15,7 @@ import {
 let config = getConfig()
 
 function watchAndRunSequence (watchPath, ...sequence) {
-  console.log(watchPath)
   let validSequence = sequence.filter(x => !!x)
-  console.log(validSequence)
 
   watch(watchPath, function (file) {
     return vendor.runSequence('parched-before', ...validSequence, 'parched-after')
@@ -51,19 +49,6 @@ vendor.gulp().task('webapp-watch', false, () => {
       `${bundleConfig.src}/views/**/*`,
       `webapp-build-views--${bundleName}`
     )
-
-    //if (bundleConfig.shouldCopyVendor) {
-      //if (!bundleConfig.shouldConcatVendor) {
-        //finalVendorStyleTasks.push(`webapp-build-final-styles-vendor--${bundleName}`)
-        ////watchAndRunSequence(
-          ////paths.vendorScripts,
-          ////'webapp-build-vendor-scripts',
-          ////'webapp-build-final-scripts'
-        ////)
-
-      //}
-    //}
-
   })
 
   watchAndRunSequence(
@@ -97,11 +82,10 @@ vendor.gulp().task('webapp-watch', false, () => {
       'webapp-build-bower-scripts',
       'webapp-build-bower-styles',
     ],
-    [
-      ...getDependenciesFor('finalScriptsVendorWatch'),
-      ...getDependenciesFor('finalStylesVendorWatch'),
-      ...getDependenciesFor('finalAssetsVendorWatch'),
-    ]
+    []
+      .concat(getDependenciesFor('finalScriptsVendorWatch'))
+      .concat(getDependenciesFor('finalStylesVendorWatch'))
+      .concat(getDependenciesFor('finalAssetsVendorWatch'))
   )
 })
 

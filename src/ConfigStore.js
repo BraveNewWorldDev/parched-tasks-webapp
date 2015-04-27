@@ -3,39 +3,7 @@ import {
 } from './refs'
 
 const defaultConfig = {
-  //__bundles: {
-    //app: {
-      //src: 'app',
-      //dest: 'public',
-      //shouldConcatVendor: true,
-    //},
-
-    //admin: {
-      //path: 'admin',
-      //dest: '../static',
-      //shouldConcatVendor: false,
-    //},
-  //},
-
-  //bundles: {
-    //app: {
-      //src: './app',
-      //dest: './public',
-      //shouldConcatVendor: true,
-    //},
-
-    //admin: {
-      //path: './admin',
-      //dest: '../static',
-      //shouldConcatVendor: false,
-    //},
-  //},
-
   paths: {
-    //appScripts: 'app/scripts',
-    //appStyles: 'app/styles',
-    //appAssets: 'app/assets',
-    //appViews: 'app/views',
     vendorScripts: 'vendor/scripts',
     vendorStyles: 'vendor/styles',
     vendorAssets: 'vendor/assets',
@@ -66,19 +34,12 @@ export function setConfig (config) {
   // If no bundles defined, we assume they want an app bundle
   if (Object.keys(appConfig.bundles).length === 0) {
     appConfig.bundles.app = {
-      src: 'app',
       dest: 'public',
-      //shouldConcatVendor: true,
-      //shouldCopyVendor: true,
     }
 
     // TODO this is for testing
     appConfig.bundles.admin = {
-      //src: 'admin',
       dest: './admin-public',
-      //shouldConcatVendor: true,
-      //shouldCopyVendor: true,
-      //shouldConcatVendor: true,
     }
   }
 
@@ -113,19 +74,6 @@ export function setConfig (config) {
   if (!anyCopyVendor) {
     appConfig.bundles[firstBundleName].shouldCopyVendor = true
   }
-
-  //if (!appConfig.bundles.vendor) {
-    //appConfig.bundles.vendor = {
-      //copyTo: firstBundleName
-    //}
-  //}
-
-  //appConfig.files.scripts = appConfig.files.scripts || {}
-  //if (Object.keys(appConfig.files.scripts).length === 0) {
-    //appConfig.files.scripts['app.js'] = {
-      //entries: 'index.js'
-    //}
-  //}
 
   return appConfig
 }

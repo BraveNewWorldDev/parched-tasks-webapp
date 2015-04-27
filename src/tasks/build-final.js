@@ -113,10 +113,6 @@ function buildFinalScriptsForBundle (bundleName) {
 
 function buildFinalStylesVendor (bundleName) {
   let bundleConfig = config.bundles[bundleName]
-  //if (bundleConfig.shouldCopyVendor) {
-    //if (!bundleConfig.shouldConcatVendor) {
-    //}
-  //}
   if (!bundleConfig.shouldCopyVendor) {
     return
   }
@@ -162,10 +158,6 @@ function buildFinalStylesVendor (bundleName) {
 
 function buildFinalScriptsVendor (bundleName) {
   let bundleConfig = config.bundles[bundleName]
-  //if (bundleConfig.shouldCopyVendor) {
-    //if (!bundleConfig.shouldConcatVendor) {
-    //}
-  //}
   if (!bundleConfig.shouldCopyVendor) {
     return
   }
@@ -211,10 +203,6 @@ function buildFinalScriptsVendor (bundleName) {
 
 function buildFinalAssetsVendor (bundleName) {
   let bundleConfig = config.bundles[bundleName]
-  //if (bundleConfig.shouldCopyVendor) {
-    //if (!bundleConfig.shouldConcatVendor) {
-    //}
-  //}
   if (!bundleConfig.shouldCopyVendor) {
     return
   }
@@ -245,10 +233,3 @@ Object.keys(config.bundles).forEach((bundleName) => {
   buildFinalScriptsVendor(bundleName)
   buildFinalAssetsVendor(bundleName)
 })
-
-
-// Take all .css files and join them to app.css in the public folder
-// Run them through minify if isProduction
-// Sort via config.files.order.before
-//vendor.gulp().task('webapp-build-final-styles', dependenciesForStyles)
-//vendor.gulp().task('webapp-build-final-scripts', dependenciesForScripts)

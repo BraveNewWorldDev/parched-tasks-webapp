@@ -33,7 +33,6 @@ let defaultBundleOptions = {
 
 // Returns either a browserify or a watchify stream to be used in a
 // gulp task
-//function makeBrowserifyStream (outputName, bundleSrc, browserifyOptions) {
 function makeBrowserifyStream (bundleName) {
   let bundleConfig = config.bundles[bundleName]
   console.log(bundleConfig)
@@ -61,7 +60,6 @@ function makeBrowserifyStream (bundleName) {
   return createBundleFactory(bundleName, browserifyInstance)()
 }
 
-//function createBrowserifyInstance (bundleSrc, browserifyOptions) {
 function createBrowserifyInstance (bundleName, browserifyOptions) {
   let bundleConfig = config.bundles[bundleName]
   let bundleSrc = bundleConfig.src
@@ -87,7 +85,6 @@ function createBrowserifyInstance (bundleName, browserifyOptions) {
 
 // Returns a function to either be called directly or in
 // `browserifyInstance.on('update')`
-//function createBundleFactory (outputName, browserifyInstance, bundleSrc) {
 function createBundleFactory (bundleName, browserifyInstance) {
   let bundleConfig = config.bundles[bundleName]
   let outputName = `${bundleName}.js`
@@ -138,44 +135,16 @@ export function modifyBrowserifyObject (b) {
 
 Object.keys(config.bundles).forEach((bundleName) => {
   (function () {
-    let bundleConfig = config.bundles[bundleName]
     let taskName = `webapp-build-browserify--${bundleName}`
     addDependency('browserify', taskName)
 
     vendor.gulp().task(taskName, false, () => {
-      let watchifyArgs = global.isWatching ? watchify.args : {}
-      let optionsClone = vendor.xtend({}, defaultBundleOptions, bundleConfig, watchifyArgs)
-      //return makeBrowserifyStream(`${bundleName}.js`, bundleConfig.src, optionsClone)
       return makeBrowserifyStream(bundleName)
     })
   })(bundleName)
 })
 
-// Each property in `config.files.scripts` gets its own gulp task
-// ie: `webapp-build-app-scripts--index.js`
-// They get added as dependencies to the `webapp-build-app-scripts-proxy` task
-//let proxyTasks = []
-//let appScripts = config.files.scripts
-
-//Object.keys(appScripts).forEach((outputName) => {
-  //let browserifyOptions = appScripts[outputName]
-  //createGulpProxyTask(outputName, browserifyOptions)
-//})
-
-//function createGulpProxyTask (outputName, browserifyOptions) {
-  //let taskName = `webapp-build-app-scripts--${outputName}`
-  //proxyTasks.push(taskName)
-
-  //vendor.gulp().task(taskName, false, () => {
-    //let watchifyArgs = global.isWatching ? watchify.args : {}
-    //let optionsClone = vendor.xtend({}, defaultBundleOptions, browserifyOptions, watchifyArgs)
-    //return makeBrowserifyStream(outputName, optionsClone)
-  //})
-//}
-
-//vendor.gulp().task('webapp-build-app-scripts-proxy', false, proxyTasks)
-
-// The `webapp-build-app-scripts` task calls the `proxyTasks` task if needed
+// The `webapp-build-app-scripts` task calls the `browserify` tasks if needed
 let hasBuiltOnce = false
 
 vendor.gulp().task('webapp-build-browserify', false, (done) => {
