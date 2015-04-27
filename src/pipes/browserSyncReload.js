@@ -1,9 +1,9 @@
-import browserSync from 'browser-sync'
+import browserSyncInstance from '../browserSyncInstance'
 import { vendor } from '../refs'
 
 export default function () {
   if (global.isWatching) {
-    return browserSync.reload({
+    return browserSyncInstance.reload({
       stream: true,
     })
   } else {

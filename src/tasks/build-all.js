@@ -1,4 +1,4 @@
-import browserSync from 'browser-sync'
+import browserSyncInstance from '../browserSyncInstance'
 
 import {
   getConfig,
@@ -59,7 +59,7 @@ vendor.gulp().task('webapp-build-all', false, (done) => {
           browserSyncOptions.server.baseDir = baseDirs
         }
 
-        browserSync(browserSyncOptions)
+        browserSyncInstance.init(browserSyncOptions)
       }
 
       // TODO the first argument is an empty object now??
