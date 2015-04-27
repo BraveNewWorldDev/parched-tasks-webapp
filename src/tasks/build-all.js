@@ -19,10 +19,7 @@ let config = getConfig()
 let defaultBrowserSyncOptions = {
   notify: false,
   ghostMode: true,
-  server: {
-    //baseDir: config.paths.public
-    //baseDir: ['public', 'admin-public']
-  }
+  server: {},
 }
 
 vendor.gulp().task('webapp-build-all', false, (done) => {
