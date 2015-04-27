@@ -20,7 +20,8 @@ let defaultBrowserSyncOptions = {
   notify: false,
   ghostMode: true,
   server: {
-    baseDir: config.paths.public
+    //baseDir: config.paths.public
+    //baseDir: ['public', 'admin-public']
   }
 }
 
@@ -43,11 +44,22 @@ vendor.gulp().task('webapp-build-all', false, (done) => {
 
     () => {
       if (global.isWatching) {
-        browserSync(vendor.xtend(
+        let browserSyncOptions = vendor.xtend(
           {},
           defaultBrowserSyncOptions,
           config.browserSyncOptions
-        ))
+        )
+
+        if (browserSyncOptions.server.baseDir == null) {
+          let baseDirs = []
+          Object.keys(config.bundles).forEach((bundleName) => {
+            baseDirs.push(config.bundles[bundleName].dest)
+          })
+
+          browserSyncOptions.server.baseDir = baseDirs
+        }
+
+        browserSync(browserSyncOptions)
       }
 
       // TODO the first argument is an empty object now??
