@@ -9,8 +9,15 @@ import {
 
 let config = getConfig()
 
-vendor.gulp().task('webapp-clean', false, (done) => {
-  vendor.rimraf(config.paths.public, done)
-})
+Object.keys(config.bundles).forEach((bundleName) => {
+  (function (bundleName) {
+    let bundleConfig = config.bundles[bundleName]
+    let taskName = `webapp-clean--${bundleName}`
 
-addDependencyToClean('webapp-clean')
+    vendor.gulp().task(taskName, false, (done) => {
+      vendor.rimraf(bundleConfig.dest, done)
+    })
+
+    addDependencyToClean(taskName)
+  })(bundleName)
+})

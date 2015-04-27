@@ -42,4 +42,7 @@ export default function (Parched) {
   ConfigStore.setConfig(Parched.getAppConfig().webapp)
 
   require('./tasks')
+  //console.log(require('./DependencyStore').cloneAll())
+  console.log(ConfigStore.getConfig())
+  console.log(require('./DependencyStore').cloneAll())
 }

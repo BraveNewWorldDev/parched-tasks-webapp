@@ -13,6 +13,13 @@ import {
   getConfig,
 } from '../ConfigStore'
 
+import {
+  //addDependencyToScripts,
+  //addDependencyToStyles,
+  //addDependencyToAssets,
+  addDependency,
+} from '../DependencyStore'
+
 import './build-bower'
 import './build-app-scripts'
 import './build-final'
@@ -25,15 +32,24 @@ let config = getConfig()
 Object.keys(config.bundles).forEach((bundleName) => {
   (function (bundleName) {
     let bundleConfig = config.bundles[bundleName]
+    let taskNameScripts = `webapp-lint-scripts--${bundleName}`
+    addDependency('scripts', taskNameScripts)
+    //addDependencyToScripts(taskNameScripts)
 
     createTask({
-      taskName: `webapp-lint-scripts--${bundleName}`,
+      taskName: taskNameScripts,
       src: [
         `${bundleConfig.src}/scripts/**/*`
       ],
       sequence: [
         'lint'
       ],
+
+      modifyContext (callbackContext) {
+        callbackContext.bundleName = bundleName
+        callbackContext.bundleSrc = bundleConfig.src
+        callbackContext.bundleDest = bundleConfig.dest
+      },
 
       beforeEach (stream, callbackContext) {
         return stream
@@ -46,14 +62,24 @@ Object.keys(config.bundles).forEach((bundleName) => {
       }
     });
 
+    let taskNameStyle = `webapp-build-styles--${bundleName}`
+    addDependency('styles', taskNameStyle)
+    //addDependencyToStyles(taskNameStyle)
+
     createTask({
-      taskName: `webapp-build-styles--${bundleName}`,
+      taskName: taskNameStyle,
       src: [
         `${bundleConfig.src}/styles/**/*`
       ],
       sequence: [
         ['lint', 'transform']
       ],
+
+      modifyContext (callbackContext) {
+        callbackContext.bundleName = bundleName
+        callbackContext.bundleSrc = bundleConfig.src
+        callbackContext.bundleDest = bundleConfig.dest
+      },
 
       beforeLint (stream, callbackContext) {
         return stream
@@ -77,8 +103,12 @@ Object.keys(config.bundles).forEach((bundleName) => {
       }
     });
 
+    let taskNameAssets = `webapp-build-assets--${bundleName}`
+    //addDependencyToAssets(taskNameAssets)
+    addDependency('assets', taskNameAssets)
+
     createTask({
-      taskName: `webapp-build-assets--${bundleName}`,
+      taskName: taskNameAssets,
       shouldProcessAssets: true,
       src: [
         `${bundleConfig.src}/assets/**/*`
@@ -87,15 +117,23 @@ Object.keys(config.bundles).forEach((bundleName) => {
         'transform'
       ],
 
+      modifyContext (callbackContext) {
+        callbackContext.bundleName = bundleName
+        callbackContext.bundleSrc = bundleConfig.src
+        callbackContext.bundleDest = bundleConfig.dest
+      },
+
       afterTransform (stream) {
         return stream
-            .pipe(vendor.gulp().dest(`tmp/webapp/99-${bundleName}`))
+            .pipe(vendor.gulp().dest(bundleConfig.dest))
             .pipe(browserSyncReload());
       }
     });
 
+    let taskNameViews = `webapp-build-views--${bundleName}`
+    addDependency('views', taskNameViews)
     createTask({
-      taskName: `webapp-build-views--${bundleName}`,
+      taskName: taskNameViews,
       src: [
         `${bundleConfig.src}/views/**/*`
       ],
@@ -103,9 +141,16 @@ Object.keys(config.bundles).forEach((bundleName) => {
         ['lint', 'transform']
       ],
 
+      modifyContext (callbackContext) {
+        callbackContext.bundleName = bundleName
+        callbackContext.bundleSrc = bundleConfig.src
+        callbackContext.bundleDest = bundleConfig.dest
+      },
+
       afterTransform (stream) {
         return stream
-            .pipe(vendor.gulp().dest(`tmp/webapp/99-${bundleName}`))
+            //.pipe(vendor.gulp().dest(`tmp/webapp/99-${bundleName}`))
+            .pipe(vendor.gulp().dest(bundleConfig.dest))
             .pipe(browserSyncReload());
       }
     });
@@ -114,91 +159,8 @@ Object.keys(config.bundles).forEach((bundleName) => {
   })(bundleName)
 })
 
-// TODO Remove `-app` in favor of above
-//createTask({
-  //taskName: 'webapp-lint-app-scripts',
-  //src: [
-    //`${config.paths.appScripts}/**/*`
-  //],
-  //sequence: [
-    //'lint'
-  //],
-
-  //beforeEach (stream, callbackContext) {
-    //return stream
-        //.pipe(cachedForTaskName(callbackContext));
-  //},
-
-  //afterEach (stream, callbackContext) {
-    //return stream
-        //.pipe(rememberForTaskName(callbackContext));
-  //}
-//});
-
-//createTask({
-  //taskName: 'webapp-build-app-styles',
-  //src: [
-    //`${config.paths.appStyles}/**/*`
-  //],
-  //sequence: [
-    //['lint', 'transform']
-  //],
-
-  //beforeLint (stream, callbackContext) {
-    //return stream
-        //.pipe(cachedForTaskName(callbackContext));
-  //},
-
-  //afterLint (stream, callbackContext) {
-    //return stream
-        //.pipe(rememberForTaskName(callbackContext));
-  //},
-
-  //beforeTransform (stream) {
-    //return stream
-        //.pipe(sourcemapsInit());
-  //},
-
-  //afterTransform (stream, callbackContext) {
-    //return stream
-        //.pipe(sourcemapsWrite())
-        //.pipe(vendor.gulp().dest('tmp/webapp/99-app'));
-  //}
-//});
-
-//createTask({
-  //taskName: 'webapp-build-app-assets',
-  //shouldProcessAssets: true,
-  //src: [
-    //`${config.paths.appAssets}/**/*`
-  //],
-  //sequence: [
-    //'transform'
-  //],
-
-  //afterTransform (stream) {
-    //return stream
-        //.pipe(vendor.gulp().dest(config.paths.public))
-        //.pipe(browserSyncReload());
-  //}
-//});
-
-//createTask({
-  //taskName: 'webapp-build-app-views',
-  //src: [
-    //`${config.paths.appViews}/**/*`
-  //],
-  //sequence: [
-    //['lint', 'transform']
-  //],
-
-  //afterTransform (stream) {
-    //return stream
-        //.pipe(vendor.gulp().dest(config.paths.public))
-        //.pipe(browserSyncReload());
-  //}
-//});
-
+addDependency('scripts', 'webapp-build-vendor-scripts')
+//addDependencyToScripts('webapp-build-vendor-scripts')
 createTask({
   taskName: 'webapp-build-vendor-scripts',
   src: [
@@ -230,6 +192,8 @@ createTask({
   }
 });
 
+//addDependencyToStyles('webapp-build-vendor-styles')
+addDependency('styles', 'webapp-build-vendor-styles')
 createTask({
   taskName: 'webapp-build-vendor-styles',
   src: [
@@ -261,6 +225,8 @@ createTask({
   }
 });
 
+//addDependencyToAssets('webapp-build-vendor-assets')
+addDependency('assets', 'webapp-build-vendor-assets')
 createTask({
   taskName: 'webapp-build-vendor-assets',
   shouldProcessAssets: true,
@@ -273,11 +239,12 @@ createTask({
 
   afterTransform (stream) {
     return stream
-        .pipe(vendor.gulp().dest(config.paths.public))
+        .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'))
         .pipe(browserSyncReload());
   }
 });
 
+addDependency('views', 'webapp-build-vendor-views')
 createTask({
   taskName: 'webapp-build-vendor-views',
   src: [
@@ -289,7 +256,7 @@ createTask({
 
   afterTransform (stream) {
     return stream
-        .pipe(vendor.gulp().dest(config.paths.public))
+        .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'))
         .pipe(browserSyncReload());
   }
 });

@@ -13,8 +13,13 @@ import {
   vendor,
 } from '../refs'
 
+import {
+  addDependency,
+} from '../DependencyStore'
+
 let config = getConfig()
 
+addDependency('scripts', 'webapp-build-bower-scripts')
 vendor.gulp().task('webapp-build-bower-scripts', false, () => {
   let bowerFiles
   try {
@@ -32,6 +37,7 @@ vendor.gulp().task('webapp-build-bower-scripts', false, () => {
       .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'))
 })
 
+addDependency('styles', 'webapp-build-bower-styles')
 vendor.gulp().task('webapp-build-bower-styles', false, () => {
   let bowerFiles
   try {
@@ -49,6 +55,7 @@ vendor.gulp().task('webapp-build-bower-styles', false, () => {
       .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'))
 })
 
+addDependency('assets', 'webapp-build-bower-assets')
 vendor.gulp().task('webapp-build-bower-assets', false, () => {
   let bowerFiles
   try {

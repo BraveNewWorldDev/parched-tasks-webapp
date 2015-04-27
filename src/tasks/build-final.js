@@ -16,76 +16,239 @@ import {
   vendor,
 } from '../refs'
 
+import {
+  addDependency,
+  getDependenciesFor,
+} from '../DependencyStore'
+
 let config = getConfig()
+
+function buildFinalStylesForBundle (bundleName) {
+  let bundleConfig = config.bundles[bundleName]
+  let taskName = `webapp-build-final-styles--${bundleName}`
+  addDependency('finalStyles', taskName)
+
+  if (bundleConfig.shouldConcatVendor) {
+    addDependency('finalStylesVendorWatch', taskName)
+  }
+
+  vendor.gulp().task(taskName, false, () => {
+    let src = []
+    if (bundleConfig.shouldConcatVendor) {
+      src.push('tmp/webapp/00-**/*.css')
+    }
+
+    src.push(`tmp/webapp/99-${bundleName}/**/*.css`)
+
+    let stream = vendor.gulp()
+        .src(src)
+
+        .pipe(gulpSort({
+          before: config.files.order.before,
+          after: config.files.order.after,
+        }))
+
+        .pipe(sourcemapsInit())
+        .pipe(concat(`${bundleName}.css`))
+        .pipe(sourcemapsWrite())
+
+    if (isProduction()) {
+      stream = addPluginMethodsToStream({
+        stream,
+        methodNames: ['minify']
+      })
+    }
+
+    stream
+        .pipe(vendor.gulp().dest(bundleConfig.dest))
+        .pipe(browserSyncReload())
+
+    return stream
+  })
+}
+
+function buildFinalScriptsForBundle (bundleName) {
+  let bundleConfig = config.bundles[bundleName]
+  let taskName = `webapp-build-final-scripts--${bundleName}`
+  addDependency('finalScripts', taskName)
+
+  if (bundleConfig.shouldConcatVendor) {
+    addDependency('finalScriptsVendorWatch', taskName)
+  }
+
+  vendor.gulp().task(taskName, false, () => {
+    let src = []
+    if (bundleConfig.shouldConcatVendor) {
+      src.push('tmp/webapp/00-**/*.js')
+    }
+
+    src.push(`tmp/webapp/99-${bundleName}/**/*.js`)
+
+    let stream = vendor.gulp()
+        .src(src)
+
+        .pipe(gulpSort({
+          before: config.files.order.before,
+          after: config.files.order.after,
+        }))
+
+        .pipe(sourcemapsInit())
+        .pipe(concat(`${bundleName}.js`))
+        .pipe(sourcemapsWrite())
+
+    if (isProduction()) {
+      stream = addPluginMethodsToStream({
+        stream,
+        methodNames: ['minify']
+      })
+    }
+
+    stream
+        .pipe(vendor.gulp().dest(bundleConfig.dest))
+        .pipe(browserSyncReload())
+
+    return stream
+  })
+}
+
+function buildFinalStylesVendor (bundleName) {
+  let bundleConfig = config.bundles[bundleName]
+  //if (bundleConfig.shouldCopyVendor) {
+    //if (!bundleConfig.shouldConcatVendor) {
+    //}
+  //}
+  if (!bundleConfig.shouldCopyVendor) {
+    return
+  }
+
+  if (bundleConfig.shouldConcatVendor) {
+    return
+  }
+
+  let taskName = `webapp-build-final-styles-vendor--${bundleName}`
+  addDependency('finalStyles', taskName)
+  addDependency('finalStylesVendorWatch', taskName)
+
+  vendor.gulp().task(taskName, () => {
+    let stream = vendor.gulp()
+        .src([
+          'tmp/webapp/00-**/*.css'
+        ])
+
+        .pipe(gulpSort({
+          before: config.files.order.before,
+          after: config.files.order.after,
+        }))
+
+        .pipe(sourcemapsInit())
+        .pipe(concat('vendor.css'))
+        .pipe(sourcemapsWrite())
+
+    if (isProduction()) {
+      stream = addPluginMethodsToStream({
+        stream,
+        methodNames: ['minify']
+      })
+    }
+
+    stream
+        .pipe(vendor.gulp().dest(bundleConfig.dest))
+        .pipe(browserSyncReload())
+
+    return stream
+  })
+
+}
+
+function buildFinalScriptsVendor (bundleName) {
+  let bundleConfig = config.bundles[bundleName]
+  //if (bundleConfig.shouldCopyVendor) {
+    //if (!bundleConfig.shouldConcatVendor) {
+    //}
+  //}
+  if (!bundleConfig.shouldCopyVendor) {
+    return
+  }
+
+  if (bundleConfig.shouldConcatVendor) {
+    return
+  }
+
+  let taskName = `webapp-build-final-scripts-vendor--${bundleName}`
+  addDependency('finalScripts', taskName)
+  addDependency('finalScriptsVendorWatch', taskName)
+
+  vendor.gulp().task(taskName, () => {
+    let stream = vendor.gulp()
+        .src([
+          'tmp/webapp/00-**/*.js'
+        ])
+
+        .pipe(gulpSort({
+          before: config.files.order.before,
+          after: config.files.order.after,
+        }))
+
+        .pipe(sourcemapsInit())
+        .pipe(concat('vendor.js'))
+        .pipe(sourcemapsWrite())
+
+    if (isProduction()) {
+      stream = addPluginMethodsToStream({
+        stream,
+        methodNames: ['minify']
+      })
+    }
+
+    stream
+        .pipe(vendor.gulp().dest(bundleConfig.dest))
+        .pipe(browserSyncReload())
+
+    return stream
+  })
+
+}
+
+function buildFinalAssetsVendor (bundleName) {
+  let bundleConfig = config.bundles[bundleName]
+  //if (bundleConfig.shouldCopyVendor) {
+    //if (!bundleConfig.shouldConcatVendor) {
+    //}
+  //}
+  if (!bundleConfig.shouldCopyVendor) {
+    return
+  }
+
+  let taskName = `webapp-build-final-assets-vendor--${bundleName}`
+  addDependency('finalAssets', taskName)
+  addDependency('finalAssetsVendorWatch', taskName)
+
+  vendor.gulp().task(taskName, () => {
+    let stream = vendor.gulp()
+        .src([
+          'tmp/webapp/00-**/*',
+          '!**/*.js',
+          '!**/*.css'
+        ])
+        .pipe(vendor.gulp().dest(bundleConfig.dest))
+        .pipe(browserSyncReload())
+
+    return stream
+  })
+
+}
+
+Object.keys(config.bundles).forEach((bundleName) => {
+  buildFinalStylesForBundle(bundleName)
+  buildFinalScriptsForBundle(bundleName)
+  buildFinalStylesVendor(bundleName)
+  buildFinalScriptsVendor(bundleName)
+  buildFinalAssetsVendor(bundleName)
+})
+
 
 // Take all .css files and join them to app.css in the public folder
 // Run them through minify if isProduction
 // Sort via config.files.order.before
-//
-// TODO allow the files to be defined by the user, like Brunch
-vendor.gulp().task('webapp-build-final-styles', false, () => {
-  let stream = vendor.gulp()
-      .src([
-        'tmp/webapp/00-**/*.css',
-        'tmp/webapp/99-**/*.css',
-      ])
-
-      .pipe(gulpSort({
-        before: config.files.order.before,
-        after: config.files.order.after
-      }))
-
-      .pipe(sourcemapsInit())
-      .pipe(concat('app.css'))
-      .pipe(sourcemapsWrite())
-
-  if (isProduction()) {
-    stream = addPluginMethodsToStream({
-      stream: stream,
-      methodNames: ['minify']
-    })
-  }
-
-  stream
-      .pipe(vendor.gulp().dest(config.paths.public))
-      .pipe(browserSyncReload())
-
-  return stream
-})
-
-// Take all .js files and join them to app.js in the public folder
-// Run them through minify if isProduction
-// Sort via config.files.order.before
-//
-// TODO While this is nice it has a few issues:
-// - two browserify bundles joined just doesn't seem to work
-// - joining bower and vendor maybe makes the task take too long
-// - splitting to vendor.js and user-defined bundles makes more sense
-vendor.gulp().task('webapp-build-final-scripts', false, () => {
-  let stream = vendor.gulp()
-      .src([
-        'tmp/webapp/00-**/*.js',
-        'tmp/webapp/99-**/*.js'
-      ])
-      .pipe(gulpSort({
-        before: config.files.order.before,
-        after: config.files.order.after
-      }))
-      .pipe(sourcemapsInit())
-      .pipe(concat('app.js'))
-      .pipe(sourcemapsWrite())
-
-  if (isProduction()) {
-    stream = addPluginMethodsToStream({
-      stream: stream,
-      methodNames: ['minify']
-    })
-  }
-
-  stream
-      .pipe(vendor.gulp().dest(config.paths.public))
-      .pipe(browserSyncReload())
-
-  return stream
-})
-
+//vendor.gulp().task('webapp-build-final-styles', dependenciesForStyles)
+//vendor.gulp().task('webapp-build-final-scripts', dependenciesForScripts)

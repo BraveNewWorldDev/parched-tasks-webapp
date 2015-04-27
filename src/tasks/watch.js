@@ -8,85 +8,86 @@ import {
   getConfig,
 } from '../ConfigStore'
 
+import {
+  getDependenciesFor,
+} from '../DependencyStore'
+
 let config = getConfig()
 
 function watchAndRunSequence (watchPath, ...sequence) {
+  console.log(watchPath)
+  let validSequence = sequence.filter(x => !!x)
+  console.log(validSequence)
+
   watch(watchPath, function (file) {
-    console.log(arguments)
-    return vendor.runSequence('parched-before', ...sequence, 'parched-after')
+    return vendor.runSequence('parched-before', ...validSequence, 'parched-after')
   })
 }
 
 vendor.gulp().task('webapp-watch', false, () => {
   let paths = config.paths
+  let finalVendorStyleTasks = []
 
   Object.keys(config.bundles).forEach((bundleName) => {
-    let bundleOptions = config.bundles[bundleName]
+    let bundleConfig = config.bundles[bundleName]
 
     watchAndRunSequence(
-      `${bundleOptions.src}/scripts/**/*`,
+      `${bundleConfig.src}/scripts/**/*`,
       `webapp-lint-scripts--${bundleName}`
     )
 
     watchAndRunSequence(
-      `${bundleOptions.src}/styles/**/*`,
+      `${bundleConfig.src}/styles/**/*`,
       `webapp-build-styles--${bundleName}`,
-      'webapp-build-final-styles'
+      `webapp-build-final-styles--${bundleName}`
     )
 
     watchAndRunSequence(
-      `${bundleOptions.src}/assets/**/*`,
+      `${bundleConfig.src}/assets/**/*`,
       `webapp-build-assets--${bundleName}`
     )
 
     watchAndRunSequence(
-      `${bundleOptions.src}/views/**/*`,
+      `${bundleConfig.src}/views/**/*`,
       `webapp-build-views--${bundleName}`
     )
 
+    //if (bundleConfig.shouldCopyVendor) {
+      //if (!bundleConfig.shouldConcatVendor) {
+        //finalVendorStyleTasks.push(`webapp-build-final-styles-vendor--${bundleName}`)
+        ////watchAndRunSequence(
+          ////paths.vendorScripts,
+          ////'webapp-build-vendor-scripts',
+          ////'webapp-build-final-scripts'
+        ////)
+
+      //}
+    //}
+
   })
-
-  //watchAndRunSequence(
-    //paths.appScripts,
-    //'webapp-lint-app-scripts'
-  //)
-
-  //watchAndRunSequence(
-    //paths.appStyles,
-    //'webapp-build-app-styles',
-    //'webapp-build-final-styles'
-  //)
-
-  //watchAndRunSequence(
-    //paths.appAssets,
-    //'webapp-build-app-assets'
-  //)
-
-  //watchAndRunSequence(
-    //paths.appViews,
-    //'webapp-build-app-views'
-  //)
 
   watchAndRunSequence(
     paths.vendorScripts,
     'webapp-build-vendor-scripts',
-    'webapp-build-final-scripts'
+    ...getDependenciesFor('finalScriptsVendorWatch')
   )
 
   watchAndRunSequence(
     paths.vendorStyles,
     'webapp-build-vendor-styles',
-    'webapp-build-final-styles'
+    ...getDependenciesFor('finalStylesVendorWatch')
   )
 
   watchAndRunSequence(
     paths.vendorAssets,
-    'webapp-build-vendor-assets'
+    'webapp-build-vendor-assets',
+    ...getDependenciesFor('finalAssetsVendorWatch')
   )
 
   watchAndRunSequence(
     paths.vendorViews,
-    'webapp-build-vendor-views'
+    'webapp-build-vendor-views',
+    ...getDependenciesFor('finalAssetsVendorWatch')
   )
 
   watchAndRunSequence(
@@ -94,11 +95,12 @@ vendor.gulp().task('webapp-watch', false, () => {
     [
       'webapp-build-bower-assets',
       'webapp-build-bower-scripts',
-      'webapp-build-bower-styles'
+      'webapp-build-bower-styles',
     ],
     [
-      'webapp-build-final-scripts',
-      'webapp-build-final-styles'
+      ...getDependenciesFor('finalScriptsVendorWatch'),
+      ...getDependenciesFor('finalStylesVendorWatch'),
+      ...getDependenciesFor('finalAssetsVendorWatch'),
     ]
   )
 })
