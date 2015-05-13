@@ -125,7 +125,7 @@ function buildFinalStylesVendor (bundleName) {
   addDependency('finalStyles', taskName)
   addDependency('finalStylesVendorWatch', taskName)
 
-  vendor.gulp().task(taskName, () => {
+  vendor.gulp().task(taskName, false, () => {
     let stream = vendor.gulp()
         .src([
           'tmp/webapp/00-**/*.css'
@@ -170,7 +170,7 @@ function buildFinalScriptsVendor (bundleName) {
   addDependency('finalScripts', taskName)
   addDependency('finalScriptsVendorWatch', taskName)
 
-  vendor.gulp().task(taskName, () => {
+  vendor.gulp().task(taskName, false, () => {
     let stream = vendor.gulp()
         .src([
           'tmp/webapp/00-**/*.js'
@@ -211,7 +211,7 @@ function buildFinalAssetsVendor (bundleName) {
   addDependency('finalAssets', taskName)
   addDependency('finalAssetsVendorWatch', taskName)
 
-  vendor.gulp().task(taskName, () => {
+  vendor.gulp().task(taskName, false, () => {
     let stream = vendor.gulp()
         .src([
           'tmp/webapp/00-**/*',
