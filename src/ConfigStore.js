@@ -38,9 +38,9 @@ export function setConfig (config) {
     }
 
     // TODO this is for testing
-    appConfig.bundles.admin = {
-      dest: './admin-public',
-    }
+    //appConfig.bundles.admin = {
+      //dest: './admin-public',
+    //}
   }
 
   let firstBundleName
