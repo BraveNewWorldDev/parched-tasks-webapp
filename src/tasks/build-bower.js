@@ -67,6 +67,27 @@ vendor.gulp().task('webapp-build-bower-assets', false, () => {
   }
 
   return vendor.gulp()
-      .src(bowerFiles)
+      .src(bowerFiles, {
+        //base: 'bower_components/*'
+      })
+      // Seems like gulp.dest's `base` option doesn't support something like
+      // `bower_components/*`
+      .pipe(updateBasePath((file) => {
+        // /home/user/project/bower_components/fontawesome/fonts/font.ttf
+        //     -> bower_components/fontawesome
+        return file.base.replace(/^.*(bower_components\/[^/]+).*$/, '$1')
+      }))
       .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'))
 })
+
+function updateBasePath (renameFn) {
+  function transform (file, enc, done) {
+    if (renameFn) {
+      file.base = renameFn(file)
+    }
+    this.push(file)
+    done()
+  }
+
+  return vendor.through2.obj(transform)
+}
