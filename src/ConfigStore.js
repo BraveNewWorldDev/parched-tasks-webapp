@@ -35,6 +35,8 @@ export function setConfig (config) {
   if (Object.keys(appConfig.bundles).length === 0) {
     appConfig.bundles.app = {
       dest: 'public',
+      shouldConcatVendorScripts: false,
+      shouldConcatVendorStyles: true,
     }
 
     // TODO this is for testing
@@ -44,7 +46,7 @@ export function setConfig (config) {
   }
 
   let firstBundleName
-  let anyConcatVendor = false
+  //let anyConcatVendor = false
   let anyCopyVendor = false
 
   Object.keys(appConfig.bundles).forEach((bundleName) => {
@@ -58,13 +60,21 @@ export function setConfig (config) {
       bundleConfig.src = bundleName
     }
 
-    if (!bundleConfig.shouldConcatVendor == null) {
-      bundleConfig.shouldConcatVendor = false
+    if (bundleConfig.shouldConcatVendor) {
+      console.log(`[DEPRECATED] shouldConcatVendor has expanded to shouldConcatVendorScripts and shouldConcatVendorStyles. Please update ${bundleName}`)
     }
 
-    if (bundleConfig.shouldConcatVendor) {
-      anyConcatVendor = true
+    if (bundleConfig.shouldConcatVendorScripts == null) {
+      bundleConfig.shouldConcatVendorScripts = false
     }
+
+    if (bundleConfig.shouldConcatVendorStyles == null) {
+      bundleConfig.shouldConcatVendorStyles = true
+    }
+
+    //if (bundleConfig.shouldConcatVendorScripts || bundleConfig.shouldConcatVendorStyles) {
+      //anyConcatVendor = true
+    //}
 
     if (bundleConfig.shouldCopyVendor) {
       anyCopyVendor = true

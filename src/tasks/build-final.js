@@ -28,14 +28,14 @@ function buildFinalStylesForBundle (bundleName) {
   let taskName = `webapp-build-final-styles--${bundleName}`
   addDependency('finalStyles', taskName)
 
-  if (bundleConfig.shouldConcatVendor) {
+  if (bundleConfig.shouldConcatVendorStyles) {
     addDependency('finalStylesVendorWatch', taskName)
   }
 
   vendor.gulp().task(taskName, false, () => {
     let src = []
-    if (bundleConfig.shouldConcatVendor) {
       src.push('tmp/webapp/00-**/*.css')
+    if (bundleConfig.shouldConcatVendorStyles) {
     }
 
     src.push(`tmp/webapp/99-${bundleName}/**/*.css`)
@@ -72,14 +72,14 @@ function buildFinalScriptsForBundle (bundleName) {
   let taskName = `webapp-build-final-scripts--${bundleName}`
   addDependency('finalScripts', taskName)
 
-  if (bundleConfig.shouldConcatVendor) {
+  if (bundleConfig.shouldConcatVendorScripts) {
     addDependency('finalScriptsVendorWatch', taskName)
   }
 
   vendor.gulp().task(taskName, false, () => {
     let src = []
-    if (bundleConfig.shouldConcatVendor) {
       src.push('tmp/webapp/00-**/*.js')
+    if (bundleConfig.shouldConcatVendorScripts) {
     }
 
     src.push(`tmp/webapp/99-${bundleName}/**/*.js`)
@@ -117,7 +117,7 @@ function buildFinalStylesVendor (bundleName) {
     return
   }
 
-  if (bundleConfig.shouldConcatVendor) {
+  if (bundleConfig.shouldConcatVendorStyles) {
     return
   }
 
@@ -162,7 +162,7 @@ function buildFinalScriptsVendor (bundleName) {
     return
   }
 
-  if (bundleConfig.shouldConcatVendor) {
+  if (bundleConfig.shouldConcatVendorScripts) {
     return
   }
 
