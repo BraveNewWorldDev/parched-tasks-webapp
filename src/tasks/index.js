@@ -49,14 +49,14 @@ Object.keys(config.bundles).forEach((bundleName) => {
 
       beforeEach (stream, callbackContext) {
         return stream
-            .pipe(cachedForTaskName(callbackContext));
+            .pipe(cachedForTaskName(callbackContext))
       },
 
       afterEach (stream, callbackContext) {
         return stream
-            .pipe(rememberForTaskName(callbackContext));
+            .pipe(rememberForTaskName(callbackContext))
       }
-    });
+    })
 
     let taskNameStyle = `webapp-build-styles--${bundleName}`
     addDependency('styles', taskNameStyle)
@@ -78,25 +78,25 @@ Object.keys(config.bundles).forEach((bundleName) => {
 
       beforeLint (stream, callbackContext) {
         return stream
-            .pipe(cachedForTaskName(callbackContext));
+            .pipe(cachedForTaskName(callbackContext))
       },
 
       afterLint (stream, callbackContext) {
         return stream
-            .pipe(rememberForTaskName(callbackContext));
+            .pipe(rememberForTaskName(callbackContext))
       },
 
       beforeTransform (stream) {
         return stream
-            .pipe(sourcemapsInit());
+            .pipe(sourcemapsInit())
       },
 
       afterTransform (stream, callbackContext) {
         return stream
             .pipe(sourcemapsWrite())
-            .pipe(vendor.gulp().dest(`tmp/webapp/99-${bundleName}`));
+            .pipe(vendor.gulp().dest(`tmp/webapp/99-${bundleName}`))
       }
-    });
+    })
 
     let taskNameAssets = `webapp-build-assets--${bundleName}`
     addDependency('assets', taskNameAssets)
@@ -120,9 +120,9 @@ Object.keys(config.bundles).forEach((bundleName) => {
       afterTransform (stream) {
         return stream
             .pipe(vendor.gulp().dest(bundleConfig.dest))
-            .pipe(browserSyncReload());
+            .pipe(browserSyncReload())
       }
-    });
+    })
 
     let taskNameViews = `webapp-build-views--${bundleName}`
     addDependency('views', taskNameViews)
@@ -144,9 +144,9 @@ Object.keys(config.bundles).forEach((bundleName) => {
       afterTransform (stream) {
         return stream
             .pipe(vendor.gulp().dest(bundleConfig.dest))
-            .pipe(browserSyncReload());
+            .pipe(browserSyncReload())
       }
-    });
+    })
 
 
   })(bundleName)
@@ -164,25 +164,25 @@ createTask({
 
   beforeTransform (stream) {
     return stream
-        .pipe(sourcemapsInit());
+        .pipe(sourcemapsInit())
   },
 
   beforeEach (stream, callbackContext) {
     return stream
-        .pipe(cachedForTaskName(callbackContext));
+        .pipe(cachedForTaskName(callbackContext))
   },
 
   afterEach (stream, callbackContext) {
     return stream
-        .pipe(rememberForTaskName(callbackContext));
+        .pipe(rememberForTaskName(callbackContext))
   },
 
   afterTransform (stream, callbackContext) {
     return stream
         .pipe(sourcemapsWrite())
-        .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'));
+        .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'))
   }
-});
+})
 
 addDependency('styles', 'webapp-build-vendor-styles')
 createTask({
@@ -196,25 +196,25 @@ createTask({
 
   beforeTransform (stream) {
     return stream
-        .pipe(sourcemapsInit());
+        .pipe(sourcemapsInit())
   },
 
   beforeEach (stream, callbackContext) {
     return stream
-        .pipe(cachedForTaskName(callbackContext));
+        .pipe(cachedForTaskName(callbackContext))
   },
 
   afterEach (stream, callbackContext) {
     return stream
-        .pipe(rememberForTaskName(callbackContext));
+        .pipe(rememberForTaskName(callbackContext))
   },
 
   afterTransform (stream, callbackContext) {
     return stream
         .pipe(sourcemapsWrite())
-        .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'));
+        .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'))
   }
-});
+})
 
 addDependency('assets', 'webapp-build-vendor-assets')
 createTask({
@@ -230,9 +230,9 @@ createTask({
   afterTransform (stream) {
     return stream
         .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'))
-        .pipe(browserSyncReload());
+        .pipe(browserSyncReload())
   }
-});
+})
 
 addDependency('views', 'webapp-build-vendor-views')
 createTask({
@@ -247,6 +247,6 @@ createTask({
   afterTransform (stream) {
     return stream
         .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'))
-        .pipe(browserSyncReload());
+        .pipe(browserSyncReload())
   }
-});
+})
