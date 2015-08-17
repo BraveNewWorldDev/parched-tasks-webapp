@@ -35,7 +35,6 @@ let defaultBundleOptions = {
 // gulp task
 function makeBrowserifyStream (bundleName) {
   let bundleConfig = config.bundles[bundleName]
-  console.log(bundleConfig)
   let outputName = `${bundleName}.js`
   let bundleSrc = bundleConfig.src
   let browserifyOptions = vendor.xtend(
