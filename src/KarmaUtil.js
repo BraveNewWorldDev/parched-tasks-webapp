@@ -1,10 +1,10 @@
 import {
   modifyBundleOptions,
   modifyBrowserifyObject,
-} from '../tasks/build-app-scripts'
+} from './tasks/build-app-scripts'
 
 export function getAllExtensions () {
-  tmpBundleOptions = {
+  let tmpBundleOptions = {
     extensions: [],
   }
 
