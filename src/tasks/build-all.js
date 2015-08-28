@@ -19,7 +19,7 @@ let config = getConfig()
 let defaultBrowserSyncOptions = {
   notify: false,
   ghostMode: true,
-  server: {},
+  //server: {},
 }
 
 vendor.gulp().task('webapp-build-all', false, (done) => {
@@ -47,13 +47,17 @@ vendor.gulp().task('webapp-build-all', false, (done) => {
           config.browserSyncOptions
         )
 
-        if (browserSyncOptions.server.baseDir == null) {
-          let baseDirs = []
-          Object.keys(config.bundles).forEach((bundleName) => {
-            baseDirs.push(config.bundles[bundleName].dest)
-          })
+        if (!browserSyncOptions.proxy) {
+          browserSyncOptions.server = browserSyncOptions.server || {}
 
-          browserSyncOptions.server.baseDir = baseDirs
+          if (browserSyncOptions.server.baseDir == null) {
+            let baseDirs = []
+            Object.keys(config.bundles).forEach((bundleName) => {
+              baseDirs.push(config.bundles[bundleName].dest)
+            })
+
+            browserSyncOptions.server.baseDir = baseDirs
+          }
         }
 
         browserSyncInstance.init(browserSyncOptions)
