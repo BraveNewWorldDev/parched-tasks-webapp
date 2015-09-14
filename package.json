@@ -21,20 +21,20 @@
   "author": "Mike Wyatt <wyatt.mike@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "browser-sync": "^2.6.0",
-    "browserify": "^9.0.7",
+    "browser-sync": "^2.9.3",
+    "browserify": "^11.1.0",
     "gulp-bower-files": "^0.2.7",
-    "gulp-cached": "^1.0.4",
-    "gulp-concat": "^2.5.2",
+    "gulp-cached": "^1.1.0",
+    "gulp-concat": "^2.6.0",
     "gulp-remember": "^0.3.0",
     "gulp-sourcemaps": "^1.5.1",
-    "gulp-watch": "^4.2.3",
-    "main-bower-files": "^2.7.0",
+    "gulp-watch": "^4.3.5",
+    "main-bower-files": "^2.9.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.2.0"
+    "watchify": "^3.4.0"
   },
   "devDependencies": {
-    "babel": "^5.1.0"
+    "babel": "^5.8.23"
   }
 }
