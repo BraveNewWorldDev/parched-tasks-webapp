@@ -60,6 +60,14 @@ export function setConfig (config) {
       bundleConfig.src = bundleName
     }
 
+    if (!bundleConfig.dest) {
+      if (bundleName === 'app') {
+        bundleConfig.dest = 'public'
+      } else {
+        bundleConfig.dest = `public/${bundleName}`
+      }
+    }
+
     if (bundleConfig.shouldConcatVendor) {
       console.log(`[DEPRECATED] shouldConcatVendor has expanded to shouldConcatVendorScripts and shouldConcatVendorStyles. Please update ${bundleName}`)
     }
