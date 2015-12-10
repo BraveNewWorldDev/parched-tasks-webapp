@@ -24,7 +24,6 @@
   "dependencies": {
     "browser-sync": "^2.9.3",
     "browserify": "^11.1.0",
-    "gulp-bower-files": "^0.2.7",
     "gulp-cached": "^1.1.0",
     "gulp-concat": "^2.6.0",
     "gulp-remember": "^0.3.0",
