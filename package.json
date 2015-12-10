@@ -10,7 +10,8 @@
   "homepage": "https://github.com/raisedmedia/parched-tasks-webapp",
   "scripts": {
     "watch": "babel src/ --out-dir lib --stage 0 --no-comments --watch",
-    "build": "babel src/ --out-dir lib --stage 0 --no-comments"
+    "build": "babel src/ --out-dir lib --stage 0 --no-comments",
+    "clean": "rm -r lib/"
   },
   "keywords": [
     "parched",
