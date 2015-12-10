@@ -52,31 +52,31 @@ vendor.gulp().task('webapp-watch', false, () => {
   })
 
   watchAndRunSequence(
-    paths.vendorScripts,
+    `${config.paths.vendorScripts}/**/*`,
     'webapp-build-vendor-scripts',
     ...getDependenciesFor('finalScriptsVendorWatch')
   )
 
   watchAndRunSequence(
-    paths.vendorStyles,
+    `${config.paths.vendorStyles}/**/*`,
     'webapp-build-vendor-styles',
     ...getDependenciesFor('finalStylesVendorWatch')
   )
 
   watchAndRunSequence(
-    paths.vendorAssets,
+    `${config.paths.vendorAssets}/**/*`,
     'webapp-build-vendor-assets',
     ...getDependenciesFor('finalAssetsVendorWatch')
   )
 
   watchAndRunSequence(
-    paths.vendorViews,
+    `${config.paths.vendorViews}/**/*`,
     'webapp-build-vendor-views',
     ...getDependenciesFor('finalAssetsVendorWatch')
   )
 
   watchAndRunSequence(
-    paths.bowerAssets,
+    `${config.paths.bowerAssets}/**/*`,
     [
       'webapp-build-bower-assets',
       'webapp-build-bower-scripts',
