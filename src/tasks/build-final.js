@@ -96,7 +96,6 @@ function buildFinalScriptsForBundle (bundleName) {
         // an extra sourcemaps run and shave off time.
         .pipe(bundleConfig.shouldConcatVendorScripts ? sourcemapsInit() : vendor.gutil.noop())
         .pipe(concat(`${bundleName}.js`))
-        .pipe(sourcemapsWrite())
         .pipe(bundleConfig.shouldConcatVendorScripts ? sourcemapsWrite() : vendor.gutil.noop())
 
     if (isProduction()) {
