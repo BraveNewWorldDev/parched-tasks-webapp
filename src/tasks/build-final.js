@@ -48,9 +48,9 @@ function buildFinalStylesForBundle (bundleName) {
           after: config.files.order.after,
         }))
 
-        .pipe(sourcemapsInit())
+        .pipe(bundleConfig.shouldConcatVendorStyles ? sourcemapsInit() : vendor.gutil.noop())
         .pipe(concat(`${bundleName}.css`))
-        .pipe(sourcemapsWrite())
+        .pipe(bundleConfig.shouldConcatVendorStyles ? sourcemapsWrite() : vendor.gutil.noop())
 
     if (isProduction()) {
       stream = addPluginMethodsToStream({
