@@ -107,7 +107,7 @@ function buildFinalScriptsForBundle (bundleName) {
 
     stream
         .pipe(vendor.gulp().dest(bundleConfig.dest))
-        .pipe(browserSyncReload())
+        .pipe(bundleConfig.hasHMR ? vendor.gutil.noop() : browserSyncReload())
 
     return stream
   })
