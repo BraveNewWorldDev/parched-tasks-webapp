@@ -104,6 +104,7 @@ Object.keys(config.bundles).forEach((bundleName) => {
     createTask({
       taskName: taskNameAssets,
       shouldProcessAssets: true,
+      shouldProcessUnderscores: true,
       src: [
         `${bundleConfig.src}/assets/**/*`
       ],
@@ -220,6 +221,7 @@ addDependency('assets', 'webapp-build-vendor-assets')
 createTask({
   taskName: 'webapp-build-vendor-assets',
   shouldProcessAssets: true,
+  shouldProcessUnderscores: true,
   src: [
     `${config.paths.vendorAssets}/**/*`
   ],
