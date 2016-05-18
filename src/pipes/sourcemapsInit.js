@@ -5,12 +5,15 @@ import {
   vendor,
 } from '../refs.js'
 
-export default function sourcemapsInit () {
+const defaults = {}
+
+export default function sourcemapsInit (opts) {
   if (isProduction()) {
     return vendor.gutil.noop()
   } else {
     return sourcemaps.init({
-      loadMaps: true,
+      ...defaults,
+      ...opts,
     })
   }
 }
