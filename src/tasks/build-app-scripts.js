@@ -2,7 +2,7 @@ import browserify from 'browserify'
 import watchify from 'watchify'
 import source from 'vinyl-source-stream'
 import buffer from 'vinyl-buffer'
-
+import makeSourcesRelative from '../pipes/makeSourcesRelative'
 
 import {
   getConfig,
@@ -95,6 +95,7 @@ function createBundleFactory (bundleName, browserifyInstance) {
         // Convert from streaming to buffered vinyl object
         .pipe(buffer())
 
+        .pipe(makeSourcesRelative())
         .pipe(vendor.gulp().dest(`tmp/webapp/99-${bundleName}`))
 
         .on('end', () => {
