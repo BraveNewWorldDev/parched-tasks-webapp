@@ -2,7 +2,7 @@ import concat from 'gulp-concat'
 
 import ConfigStore from '../ConfigStore'
 import browserSyncReload from '../pipes/browserSyncReload'
-import sourcemapsInit from '../pipes/sourcemapsInit'
+import sourcemapsRestore from '../pipes/sourcemapsRestore'
 import sourcemapsWrite from '../pipes/sourcemapsWrite'
 
 import {
@@ -48,7 +48,7 @@ function buildFinalStylesForBundle (bundleName) {
           after: config.files.order.after,
         }))
 
-        .pipe(bundleConfig.shouldConcatVendorStyles ? sourcemapsInit() : vendor.gutil.noop())
+        .pipe(bundleConfig.shouldConcatVendorStyles ? sourcemapsRestore() : vendor.gutil.noop())
         .pipe(concat(`${bundleName}.css`))
         .pipe(bundleConfig.shouldConcatVendorStyles ? sourcemapsWrite() : vendor.gutil.noop())
 
@@ -94,7 +94,7 @@ function buildFinalScriptsForBundle (bundleName) {
 
         // If the bundle is not concating vendor then we can skip
         // an extra sourcemaps run and shave off time.
-        .pipe(bundleConfig.shouldConcatVendorScripts ? sourcemapsInit() : vendor.gutil.noop())
+        .pipe(bundleConfig.shouldConcatVendorScripts ? sourcemapsRestore() : vendor.gutil.noop())
         .pipe(concat(`${bundleName}.js`))
         .pipe(bundleConfig.shouldConcatVendorScripts ? sourcemapsWrite() : vendor.gutil.noop())
 
@@ -138,7 +138,7 @@ function buildFinalStylesVendor (bundleName) {
           after: config.files.order.after,
         }))
 
-        .pipe(sourcemapsInit())
+        .pipe(sourcemapsRestore())
         .pipe(concat('vendor.css'))
         .pipe(sourcemapsWrite())
 
@@ -183,7 +183,7 @@ function buildFinalScriptsVendor (bundleName) {
           after: config.files.order.after,
         }))
 
-        .pipe(sourcemapsInit())
+        .pipe(sourcemapsRestore())
         .pipe(concat('vendor.js'))
         .pipe(sourcemapsWrite())
 
