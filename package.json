@@ -1,6 +1,6 @@
 {
   "name": "parched-tasks-webapp",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "description": "Adds a webapp workflow to parched",
   "main": "lib/index.js",
   "repository": {
