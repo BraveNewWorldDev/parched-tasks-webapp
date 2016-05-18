@@ -27,7 +27,7 @@
     "gulp-cached": "^1.1.0",
     "gulp-concat": "^2.6.0",
     "gulp-remember": "^0.3.0",
-    "gulp-sourcemaps": "^1.5.1",
+    "gulp-sourcemaps": "v2.0.0-alpha",
     "gulp-watch": "^4.3.5",
     "main-bower-files": "^2.9.0",
     "vinyl-buffer": "^1.0.0",
