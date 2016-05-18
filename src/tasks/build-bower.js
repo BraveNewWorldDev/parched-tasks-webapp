@@ -31,7 +31,7 @@ vendor.gulp().task('webapp-build-bower-scripts', false, () => {
   }
 
   return vendor.gulp()
-      .src(bowerFiles)
+      .src(bowerFiles, { base: './' })
       .pipe(sourcemapsInit())
       .pipe(sourcemapsWrite())
       .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'))
@@ -49,7 +49,7 @@ vendor.gulp().task('webapp-build-bower-styles', false, () => {
   }
 
   return vendor.gulp()
-      .src(bowerFiles)
+      .src(bowerFiles, { base: './' })
       .pipe(sourcemapsInit())
       .pipe(sourcemapsWrite())
       .pipe(vendor.gulp().dest('tmp/webapp/00-vendor'))
