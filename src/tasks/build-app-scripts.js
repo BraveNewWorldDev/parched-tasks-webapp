@@ -3,8 +3,6 @@ import watchify from 'watchify'
 import source from 'vinyl-source-stream'
 import buffer from 'vinyl-buffer'
 
-import sourcemapsInit from '../pipes/sourcemapsInit'
-import sourcemapsWrite from '../pipes/sourcemapsWrite'
 
 import {
   getConfig,
@@ -97,8 +95,6 @@ function createBundleFactory (bundleName, browserifyInstance) {
         // Convert from streaming to buffered vinyl object
         .pipe(buffer())
 
-        .pipe(sourcemapsInit())
-        .pipe(sourcemapsWrite())
         .pipe(vendor.gulp().dest(`tmp/webapp/99-${bundleName}`))
 
         .on('end', () => {
