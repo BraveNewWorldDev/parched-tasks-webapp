@@ -107,7 +107,7 @@ Object.keys(config.bundles).forEach((bundleName) => {
       taskName: taskNameAssets,
       shouldProcessAssets: true,
       shouldProcessUnderscores: true,
-      base: './',
+      base: `${bundleConfig.src}/assets`,
       src: [
         `${bundleConfig.src}/assets/**/*`
       ],
@@ -132,7 +132,7 @@ Object.keys(config.bundles).forEach((bundleName) => {
     addDependency('views', taskNameViews)
     createTask({
       taskName: taskNameViews,
-      base: './',
+      base: `${bundleConfig.src}/views`,
       src: [
         `${bundleConfig.src}/views/**/*`
       ],
@@ -228,7 +228,7 @@ createTask({
   taskName: 'webapp-build-vendor-assets',
   shouldProcessAssets: true,
   shouldProcessUnderscores: true,
-  base: './',
+  base: `${config.paths.vendorAssets}`,
   src: [
     `${config.paths.vendorAssets}/**/*`
   ],
@@ -246,7 +246,7 @@ createTask({
 addDependency('views', 'webapp-build-vendor-views')
 createTask({
   taskName: 'webapp-build-vendor-views',
-  base: './',
+  base: `${config.paths.vendorViews}`,
   src: [
     `${config.paths.vendorViews}/**/*`
   ],

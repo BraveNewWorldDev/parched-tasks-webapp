@@ -41,7 +41,7 @@ function buildFinalStylesForBundle (bundleName) {
     src.push(`tmp/webapp/99-${bundleName}/**/*.css`)
 
     let stream = vendor.gulp()
-        .src(src, { base: './' })
+        .src(src)
 
         .pipe(gulpSort({
           before: config.files.order.before,
@@ -85,7 +85,7 @@ function buildFinalScriptsForBundle (bundleName) {
     src.push(`tmp/webapp/99-${bundleName}/**/*.js`)
 
     let stream = vendor.gulp()
-        .src(src, { base: './' })
+        .src(src)
 
         .pipe(gulpSort({
           before: config.files.order.before,
@@ -131,7 +131,7 @@ function buildFinalStylesVendor (bundleName) {
     let stream = vendor.gulp()
         .src([
           'tmp/webapp/00-vendor/**/*.css'
-        ], { base: './' })
+        ])
 
         .pipe(gulpSort({
           before: config.files.order.before,
@@ -176,7 +176,7 @@ function buildFinalScriptsVendor (bundleName) {
     let stream = vendor.gulp()
         .src([
           'tmp/webapp/00-vendor/**/*.js'
-        ], { base: './' })
+        ])
 
         .pipe(gulpSort({
           before: config.files.order.before,
